@@ -1,0 +1,50 @@
+<template>
+  <div class="new-block block">
+    <div class="new-block-prompt" v-if="!show_form" v-on:click="this.toggleForm"> + </div>
+    <div class="new-block-form" v-if="show_form">
+      <form v-on:submit="this.handleSubmit">
+        <input type="text" placeholder="Block Name" class="form-control" id="block-name" v-model="block_name" />
+        <label>Block Type</label>
+        <select class="form-control" v-model="block_type">
+          <option value="list">List</option>
+          <option value="free">Free</option>
+          </select>
+        <input type="submit" class="btn btn-primary" value="Save" />
+        <input type="button" class="btn btn-secondary float-right" value="Cancel" />
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'NewBlock',
+  data: () => {
+    return {
+      block_name: "New Block",
+      block_type: "list",
+      show_form: false
+    }
+  },
+  methods: {
+    handleSubmit(e) {
+      e.preventDefault()
+      const block = {
+        "name": this.block_name,
+        "type": this.block_type,
+        "lines": []
+      }
+      this.$store.dispatch('ADD_BLOCK', block);
+      this.toggleForm();
+    },
+    toggleForm() {
+      this.show_form = (this.show_form) ? false : true
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>
+ 

@@ -1,16 +1,16 @@
 <template>
   <div class="new-block block">
     <div class="new-block-prompt" v-if="!show_form" v-on:click="this.toggleForm"> + </div>
+
     <div class="new-block-form" v-if="show_form">
       <form v-on:submit="this.handleSubmit">
-        <input type="text" placeholder="Block Name" class="form-control" id="block-name" v-model="block_name" />
-        <label>Block Type</label>
-        <select class="form-control" v-model="block_type">
-          <option value="list">List</option>
-          <option value="free">Free</option>
+        <input type="text" placeholder="Name" class="form-control" id="block-name" v-model="name" />
+        <select class="form-control" v-model="type">
+          <option value="list">List Block</option>
+          <option value="free">Free Style</option>
           </select>
-        <input type="submit" class="btn btn-primary" value="Save" />
-        <input type="button" class="btn btn-secondary float-right" value="Cancel" />
+        <input type="submit" class="btn btn-primary btn-sm" value="Save" />
+        <input type="button" class="btn btn-secondary btn-sm float-right" value="Cancel" v-on:click="show_form = false" />
       </form>
     </div>
   </div>
@@ -21,8 +21,8 @@ export default {
   name: 'NewBlock',
   data: () => {
     return {
-      block_name: "New Block",
-      block_type: "list",
+      name: "",
+      type: "list",
       show_form: false
     }
   },
@@ -30,9 +30,10 @@ export default {
     handleSubmit(e) {
       e.preventDefault()
       const block = {
-        "name": this.block_name,
-        "type": this.block_type,
-        "lines": []
+        name: this.name,
+        type: this.type,
+        html: this.html,
+        items: []
       }
       this.$store.dispatch('ADD_BLOCK', block);
       this.toggleForm();
@@ -45,6 +46,14 @@ export default {
 </script>
 
 <style>
-
+.new-block {
+  border: 2px dashed #aaa !important;
+  cursor: pointer;
+}
+.new-block-prompt {
+  text-align: center;
+  font-size: 2em;
+  color: #aaa;
+}
 </style>
  

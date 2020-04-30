@@ -1,6 +1,6 @@
 <template>
   <div id="root">
-    <Block v-for="(block, index) in this.blocks" :key="index" v-bind:block="block"></Block>
+    <Block v-for="(block, index) in this.blocks" :key="index" v-bind:block="block" v-bind:index="index"></Block>
     <NewBlock></NewBlock>
   </div>
 </template>
@@ -23,7 +23,6 @@ export default {
   created() {
     this.$store.dispatch('LOAD')
     this.blocks = this.$store.getters.getAllBlocks()
-    console.log(this.blocks)
   }
 }
 </script>
@@ -39,5 +38,8 @@ export default {
 }
 .block {
   width: 300px;
+  padding: 5px;
+  border: 2px solid #333;
+  margin: 5px;
 }
 </style>

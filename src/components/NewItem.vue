@@ -1,6 +1,6 @@
 <template>
   <div class="new-item item">
-    <div class="new-item-prompt" v-if="!show_form" v-on:click="this.toggleForm"> + </div>
+    <a class="new-item-prompt" v-if="!show_form" v-on:click="this.toggleForm"> + </a>
 
     <div class="new-item-form" v-if="show_form">
       <form v-on:submit="this.handleSubmit">

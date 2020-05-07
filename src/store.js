@@ -27,8 +27,13 @@ const store = new Vuex.Store({
         
         ADD_ITEM (state, { block_index, item }) {
             let blocks = state.blocks;
-            console.log(item)
             blocks[block_index].items.push(item);
+            Vue.set(state, 'blocks', blocks);
+        },
+
+        SET_ITEM (state, { block_index, item_index, item }) {
+            let blocks = state.blocks;
+            blocks[block_index].items[item_index] = item;
             Vue.set(state, 'blocks', blocks);
         }
 	},
@@ -49,6 +54,11 @@ const store = new Vuex.Store({
             state.dispatch('SAVE');
         },
         
+        SET_ITEM (state, { block_index, item_index, item }) {
+            state.commit('SET_ITEM', { block_index, item_index, item });
+            state.dispatch('SAVE');
+        },
+
         SAVE (state) {
             window.localStorage.setItem("blocks", JSON.stringify(state.state.blocks))
         },

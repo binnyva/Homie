@@ -1,6 +1,6 @@
 <template>
   <div id="root">
-    <Block v-for="(block, index) in this.blocks" :key="index" v-bind:block="block" v-bind:index="index"></Block>
+    <Block v-for="(block, index) in this.blocks" :key="index" :block="block" :block_index="index"></Block>
     <NewBlock></NewBlock>
   </div>
 </template>
@@ -41,5 +41,8 @@ export default {
   padding: 5px;
   border: 2px solid #333;
   margin: 5px;
+}
+a {
+  cursor: pointer;
 }
 </style>

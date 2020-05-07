@@ -32,7 +32,6 @@ export default {
       const block = {
         name: this.name,
         type: this.type,
-        html: this.html,
         items: []
       }
       this.$store.dispatch('ADD_BLOCK', block);

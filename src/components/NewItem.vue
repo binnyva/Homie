@@ -9,7 +9,7 @@
           <option value="html">Type: HTML</option>
           </select>
         <div v-if="this.type === 'link'">
-            <input type="text" placeholder="URL" class="form-control" v-model="url" />
+            <input type="text" placeholder="URL" class="form-control" v-model="url" ref="url" v-on:keyup="this.guessName" />
             <input type="text" placeholder="Text" class="form-control" v-model="name" />
         </div>
         <div v-if="this.type === 'html'">
@@ -50,8 +50,18 @@ export default {
     toggleForm() {
       this.show_form = (this.show_form) ? false : true
       if(this.show_form) {
-        // :TODO: Focus on the URL field.
+        const that = this;
+        window.setTimeout(function() {
+          that.$refs.url.focus()
+        }, 200); // Wait a bit of time for the form to be created.
       }
+    },
+    guessName() {
+      const matches = this.url.match(/https?:\/\/([^.]+).*/)
+      let new_name = "";
+      if(matches) new_name = matches[1];
+      if(!this.name) this.name = new_name[0].toUpperCase() + new_name.slice(1); 
+      else if(new_name.toLowerCase().includes(this.name.toLowerCase())) this.name = new_name[0].toUpperCase() + new_name.slice(1); 
     }
   }
 }

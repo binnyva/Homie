@@ -35,6 +35,12 @@ const store = new Vuex.Store({
             let blocks = state.blocks;
             blocks[block_index].items[item_index] = item;
             Vue.set(state, 'blocks', blocks);
+        },
+
+        DELETE_ITEM (state, { block_index, item_index}) {
+            let blocks = state.blocks;
+            blocks[block_index].splice(item_index, 1);
+            Vue.set(state, 'blocks', blocks);
         }
 	},
 
@@ -56,6 +62,11 @@ const store = new Vuex.Store({
         
         SET_ITEM (state, { block_index, item_index, item }) {
             state.commit('SET_ITEM', { block_index, item_index, item });
+            state.dispatch('SAVE');
+        },
+
+        DELETE_ITEM (state, { block_index, item_index}) {
+            state.commit('DELETE_ITEM', { block_index, item_index });
             state.dispatch('SAVE');
         },
 

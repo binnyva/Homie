@@ -9,20 +9,26 @@ const store = new Vuex.Store({
 	},
 
 	mutations: {
-		SET_BLOCKS (state, blocks) {
+		SET_BLOCKS (state, { blocks }) {
 			Vue.set(state, 'blocks', blocks);
         },
         
-        SET_BLOCK_BY_INDEX (state, index, block) {
+        SET_BLOCK_BY_INDEX (state, { index, block }) {
             let blocks = state.blocks;
             blocks[index] = block;
 			Vue.set(state, 'blocks', blocks);
         },
         
-        ADD_BLOCK (state, block) {
+        ADD_BLOCK (state, { block }) {
             let blocks = state.blocks;
             blocks.push(block);
 			Vue.set(state, 'blocks', blocks);
+        },
+
+        DELETE_BLOCK (state, { block_index }) {
+            let blocks = state.blocks;
+            blocks.splice(block_index, 1);
+            Vue.set(state, 'blocks', blocks);
         },
         
         ADD_ITEM (state, { block_index, item }) {
@@ -46,12 +52,17 @@ const store = new Vuex.Store({
 
 	actions: {
 		SET_BLOCK_BY_INDEX (state, { index, block }) {
-            state.commit('SET_BLOCK_BY_INDEX', index, block);
+            state.commit('SET_BLOCK_BY_INDEX', { index, block });
             state.dispatch('SAVE');
         },
         
-        ADD_BLOCK (state, block) {
-            state.commit('ADD_BLOCK', block);
+        ADD_BLOCK (state, { block }) {
+            state.commit('ADD_BLOCK', { block });
+            state.dispatch('SAVE');
+        },
+
+        DELETE_BLOCK (state, { block_index }) {
+            state.commit('DELETE_BLOCK', { block_index });
             state.dispatch('SAVE');
         },
 
@@ -76,7 +87,7 @@ const store = new Vuex.Store({
 
         LOAD (state) {
             let blocks = JSON.parse(window.localStorage.getItem("blocks"))
-            state.commit("SET_BLOCKS", blocks)
+            state.commit("SET_BLOCKS", { blocks })
         }
 	},
 

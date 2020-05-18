@@ -4,7 +4,8 @@
 
     <div class="new-item-form" v-if="show_form">
       <form v-on:submit="this.handleSubmit">
-        <select class="form-control" v-model="type">
+        <!-- :TODO: Type should be tabs. And there should be a divider type -->
+        <select class="form-control" v-model="type" v-on:change="this.changeType">
           <option value="link">Type: Link</option>
           <option value="html">Type: HTML</option>
           </select>
@@ -45,6 +46,10 @@ export default {
         type: this.type
       }
       this.$store.dispatch('ADD_ITEM', { item, block_index: this.block_index });
+      this.name = "";
+      this.url = "http://";
+      this.html = "";
+      this.type = "link";
       this.toggleForm();
     },
     toggleForm() {
@@ -56,12 +61,20 @@ export default {
         }, 200); // Wait a bit of time for the form to be created.
       }
     },
+
     guessName() {
       const matches = this.url.match(/https?:\/\/([^.]+).*/)
       let new_name = "";
       if(matches) new_name = matches[1];
-      if(!this.name) this.name = new_name[0].toUpperCase() + new_name.slice(1); 
+      if(!this.name) {
+        // :TODO: If no name, fetch the title of the given URL
+        this.name = new_name[0].toUpperCase() + new_name.slice(1); 
+      }
       else if(new_name.toLowerCase().includes(this.name.toLowerCase())) this.name = new_name[0].toUpperCase() + new_name.slice(1); 
+    },
+
+    changeType() {
+      console.log(this.type);
     }
   }
 }

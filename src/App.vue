@@ -36,12 +36,6 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-.block {
-  width: 300px;
-  padding: 5px;
-  border: 2px solid #333;
-  margin: 5px;
-}
 a {
   cursor: pointer;
 }

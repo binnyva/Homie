@@ -10,7 +10,9 @@
 
     <input v-model="block.name" name="name" :disabled="!editing" class="block-name" v-on:keypress="this.handleKey" />
     <ul v-if="block.type === 'list'">
-      <Item v-for="(item, index) in block.items" :key="index" :block_index="block_index" :item="item" :item_index="index"></Item>
+      <draggable v-model="block.items" group="items" handle=".handle" @end="this.saveOrder">
+        <Item v-for="(item, index) in block.items" :key="index" :block_index="block_index" :item="item" :item_index="index"></Item>
+      </draggable>
     </ul>
     <div v-if="block.type === 'html'" v-html="block.html"></div>
 
@@ -19,14 +21,17 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import NewItem from "./NewItem"
 import Item from "./Item"
+
 export default {
   name: 'Block',
   props: ["block_index", "block"],
   components: {
     NewItem,
-    Item
+    Item,
+    draggable
   },
   data: () => {
     return {
@@ -51,9 +56,13 @@ export default {
       }
     },
 
+    saveOrder: function() {
+      this.saveBlock()
+    },
+
     deleteBlock: function() {
       if(confirm("Are you sure you wish to delete this Block?")) {
-        this.$store.dispatch('DELETE_BLOCK', { block_index: this.block_index });
+        this.$store.dispatch('DELETE_BLOCK', { block_index: this.block_index })
       }
     },
 
@@ -67,7 +76,7 @@ export default {
 <style>
 .block {
   float: left;
-  min-width: 10%;
+  min-width: 15%;
   padding: 5px;
   border: 1px solid #999;
   margin: 5px;

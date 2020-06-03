@@ -11,14 +11,21 @@
       </form>
     </span>
     <span v-if="item.type === 'html'" v-html="item.html"></span>
+
+    <i class="handle" v-if="this.$store.getters.getEditMode()"><b-icon-justify></b-icon-justify></i>
   </li>
   
 </template>
 
 <script>
+import { BIconJustify } from 'bootstrap-vue'
+
 export default {
   name: 'Item',
   props: ["item_index", "item", "block_index"],
+  components: {
+    BIconJustify
+  },
   data: () => {
     return {
       editing: false,
@@ -68,6 +75,9 @@ export default {
 }
 .input-text {
   padding:0 !important;
+}
+.handle {
+  float: right;
 }
 </style>
  

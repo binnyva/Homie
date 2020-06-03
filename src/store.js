@@ -5,7 +5,8 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state: {
-		blocks: []
+        blocks: [],
+        edit_mode: false
 	},
 
 	mutations: {
@@ -47,6 +48,10 @@ const store = new Vuex.Store({
             let blocks = state.blocks;
             blocks[block_index].splice(item_index, 1);
             Vue.set(state, 'blocks', blocks);
+        },
+
+        SET_EDIT_MODE(state, { edit_mode }) {
+            Vue.set(state, 'edit_mode', edit_mode)
         }
 	},
 
@@ -81,6 +86,10 @@ const store = new Vuex.Store({
             state.dispatch('SAVE');
         },
 
+        SET_EDIT_MODE (state, { edit_mode }) {
+            state.commit('SET_EDIT_MODE', { edit_mode })
+        },
+
         SAVE (state) {
             window.localStorage.setItem("blocks", JSON.stringify(state.state.blocks))
         },
@@ -98,7 +107,11 @@ const store = new Vuex.Store({
         
         getBlockByIndex: (state) => (index) => {
 			return state.blocks[index];
-		}
+        },
+        
+        getEditMode: (state) => () => {
+            return state.edit_mode
+        }
 	}
 })
 

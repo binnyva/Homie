@@ -1,9 +1,9 @@
 <template>
   <div :class="`block ${this.block.type}-block`">
-    <div class="block-action-area">
+    <div class="block-action-area" v-if="this.$store.getters.getEditMode()">
       <div class="block-action-holder">
         <a class="block-edit-action block-action" v-on:click="this.toggleEdit">{{ action_text }}</a>
-        <span class="block-action" v-if="editing">|</span>
+        <span class="block-separator" v-if="editing">|</span>
         <a class="block-delete-action text-danger block-action" v-if="editing" v-on:click="this.deleteBlock">Delete</a>
       </div>
     </div>
@@ -14,7 +14,7 @@
     </ul>
     <div v-if="block.type === 'html'" v-html="block.html"></div>
 
-    <NewItem :block_index="block_index"></NewItem>
+    <NewItem :block_index="block_index" v-if="this.$store.getters.getEditMode()"></NewItem>
   </div>
 </template>
 
@@ -90,14 +90,19 @@ export default {
   padding: 0;
   margin: 0;
   background-color: #eee;
+  border-radius: 3px;
 }
 .block:hover .block-action-area {
   display: block;
 }
+.block-separator {
+  color: #999;
+  font-size: xx-small;
+}
 .block-action {
   color: #999;
   font-size: xx-small;
-  padding-left: 5px;
+  padding: 0 5px;
   display: inline;
 }
 .block ul {

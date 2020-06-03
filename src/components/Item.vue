@@ -2,7 +2,7 @@
   <li class="item">
     <span v-if="item.type === 'link'">
       <a v-bind:href="item.url">{{ item.name }}</a>
-      <a class="item-edit-action item-action" v-on:click="this.toggleEdit">{{ action_text }}</a>
+      <a class="item-edit-action item-action" v-on:click="this.toggleEdit" v-if="this.$store.getters.getEditMode()">{{ action_text }}</a>
       <span class="item-action" v-if="editing">|</span>
       <a class="item-delete-action text-danger item-action" v-if="editing" v-on:click="this.deleteItem">Delete</a>
       <form class="item-edit-area" v-if="editing">

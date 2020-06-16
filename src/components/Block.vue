@@ -88,11 +88,10 @@ export default {
 
 .block-action-area {
   position: absolute;
-  text-align: right;
-  width: 95%;
   display: none;
   margin: 0;
   padding: 0;
+  right: 10px;
 }
 .block-action-holder {
   display: inline;

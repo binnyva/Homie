@@ -52,7 +52,9 @@ export default {
 
     deleteItem: function() {
       if(confirm("Are you sure you wish to delete this item?")) {
-        this.$store.dispatch('DELETE_ITEM', { block_index: this.block_index, index: this.index});
+        this.$store.dispatch('DELETE_ITEM', { block_index: this.block_index, item_index: this.item_index});
+        this.action_text = "Edit"
+        this.editing = false
       }
     },
 

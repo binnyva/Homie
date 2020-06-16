@@ -46,7 +46,7 @@ const store = new Vuex.Store({
 
         DELETE_ITEM (state, { block_index, item_index}) {
             let blocks = state.blocks;
-            blocks[block_index].splice(item_index, 1);
+            blocks[block_index].items.splice(item_index, 1);
             Vue.set(state, 'blocks', blocks);
         },
 

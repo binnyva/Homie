@@ -56,6 +56,11 @@ const store = new Vuex.Store({
 	},
 
 	actions: {
+        SET_BLOCKS (state, { blocks }) {
+            state.commit('SET_BLOCKS', { blocks });
+            state.dispatch('SAVE');
+        },
+
 		SET_BLOCK_BY_INDEX (state, { index, block }) {
             state.commit('SET_BLOCK_BY_INDEX', { index, block });
             state.dispatch('SAVE');

@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <input v-model="block.name" name="name" :disabled="!editing" class="block-name" v-on:keypress="this.handleKey" />
+    <input v-model="block.name" name="name" :disabled="!editing" class="block-name" v-on:keypress="this.handleKey" v-show="block.name || editing" />
     <ul v-if="block.type === 'list'">
       <draggable v-model="block.items" group="items" handle=".handle" @end="this.saveOrder">
         <Item v-for="(item, index) in block.items" :key="index" :block_index="block_index" :item="item" :item_index="index"></Item>
@@ -78,7 +78,7 @@ export default {
   float: left;
   min-width: 15%;
   padding: 5px;
-  border: 1px solid #999;
+  border: 1px solid var(--secondary);
   margin: 5px;
   position: relative;
 }
@@ -122,7 +122,7 @@ export default {
   background-color: transparent;
   font-size: x-large;
   border: 1px solid #666;
-  color: #000;
+  color: var(--light);
   width: 100%
 }
 .block-name:disabled {

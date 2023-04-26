@@ -27,20 +27,18 @@ export default {
   created() {
     this.$store.dispatch('LOAD')
     this.blocks = this.$store.getters.getAllBlocks()
+    console.log(this.blocks)
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  color: var(--light) !important;
+  background-color: #222 !important;
 }
 a {
   cursor: pointer;
+  color: var(--info) !important;
 }
 </style>

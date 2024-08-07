@@ -1,44 +1,44 @@
-<template>
-  <div id="root">
-    <Block v-for="(block, index) in this.blocks" :key="index" :block="block" :block_index="index"></Block>
-    <NewBlock v-if="this.$store.getters.getEditMode()"></NewBlock>
-
-    <Settings></Settings>
-  </div>
-</template>
-
 <script>
-import Block from './components/Block.vue'
+import { defineComponent } from 'vue'
+import { useStore } from '@/store'
+import DataBlock from './components/DataBlock.vue'
 import NewBlock from './components/NewBlock.vue'
-import Settings from './components/Settings.vue'
+import AppSettings from './components/AppSettings.vue'
 
-export default {
-  name: 'App',
-  components: {
-    Block,
-    NewBlock,
-    Settings
+export default defineComponent({
+  setup() {
+    return {
+      store: useStore()
+    }
   },
-  data: () => {
+  data() {
     return {
       blocks: []
     }
   },
+  components: {
+    DataBlock,
+    NewBlock,
+    AppSettings
+  },
   created() {
-    this.$store.dispatch('LOAD')
-    this.blocks = this.$store.getters.getAllBlocks()
+    this.store.load()
+    this.blocks = this.store.getAllBlocks()
     console.log(this.blocks)
   }
-}
+})
 </script>
 
-<style>
-body {
-  color: var(--light) !important;
-  background-color: #222 !important;
-}
-a {
-  cursor: pointer;
-  color: var(--info) !important;
-}
-</style>
+<template>
+  <div id="root">
+    <DataBlock
+      v-for="(block, index) in this.blocks"
+      :key="index"
+      :block="block"
+      :blockIndex="index"
+    />
+    <NewBlock v-if="this.store.getEditMode()"></NewBlock>
+
+    <AppSettings></AppSettings>
+  </div>
+</template>

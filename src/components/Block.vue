@@ -22,8 +22,8 @@
 
 <script>
 import draggable from 'vuedraggable'
-import NewItem from "./NewItem"
-import Item from "./Item"
+import NewItem from "./NewItem.vue"
+import Item from "./Item.vue"
 
 export default {
   name: 'Block',

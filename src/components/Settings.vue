@@ -25,13 +25,8 @@
 </template>
 
 <script>
-import { BIconGear, BIconGearFill } from 'bootstrap-vue'
-
 export default {
   name: 'Settings',
-  components: {
-    BIconGear, BIconGearFill
-  },
   data: () => {
     return {
       edit_mode: false,

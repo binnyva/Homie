@@ -1,73 +1,81 @@
 <script>
-import { defineComponent } from 'vue'
-import { useStore } from '@/store'
+import { defineComponent } from "vue";
+import { useStore } from "@/store";
 
 export default defineComponent({
   setup() {
     return {
-      store: useStore()
-    }
+      store: useStore(),
+    };
   },
   data() {
     return {
       editMode: false,
       importExportMode: false,
-      error: null
-    }
+      error: null,
+    };
   },
   methods: {
     importExportAction() {
-      if (this.importExportMode === 'Export') {
-        this.importExportMode = false
-        this.$refs.textarea.value = ''
-        return true
+      if (this.importExportMode === "Export") {
+        this.importExportMode = false;
+        this.$refs.textarea.value = "";
+        return true;
       } else {
-        const importJson = this.$refs.textarea.value
+        const importJson = this.$refs.textarea.value;
         try {
-          const blocks = JSON.parse(importJson)
+          const blocks = JSON.parse(importJson);
           if (
             confirm(
-              'This will replace ALL your current block and replace is with the blocks you are importing. Are you sure?'
+              "This will replace ALL your current block and replace is with the blocks you are importing. Are you sure?"
             )
           ) {
-            this.store.setBlocks(blocks)
-            this.store.save()
-            this.importExportMode = false
+            this.store.setBlocks(blocks);
+            this.store.save();
+            this.importExportMode = false;
           }
         } catch (e) {
-          this.error = 'Provided Import JSON is not valid JSON.'
+          this.error = "Provided Import JSON is not valid JSON.";
         }
       }
     },
 
     showImport() {
-      this.importExportMode = 'Import'
+      this.importExportMode = "Import";
     },
     export() {
-      const blocks = this.store.getAllBlocks()
-      this.$refs.textarea.value = JSON.stringify(blocks)
-      this.importExportMode = 'Export'
-      this.$bvModal.show('#settings-dialog')
+      const blocks = this.store.blocks;
+      this.$refs.textarea.value = JSON.stringify(blocks);
+      this.importExportMode = "Export";
+      this.$bvModal.show("#settings-dialog");
     },
     toggleSetting() {
-      this.editMode = this.editMode ? false : true
+      this.editMode = this.editMode ? false : true;
 
-      this.store.setEditMode(this.editMode)
-    }
-  }
-})
+      this.store.setEditMode(this.editMode);
+    },
+  },
+});
 </script>
 
 <template>
   <div class="settings-area">
-    <div class="settings-button" v-on:click="this.toggleSetting">
-      <i :class="{ bi: true, 'bi-gear': !this.editMode, 'bi-gear-fill': this.editMode }"></i>
+    <div class="settings-button" v-on:click="toggleSetting">
+      <i
+        :class="{
+          bi: true,
+          'bi-gear': !editMode,
+          'bi-gear-fill': editMode,
+        }"
+      ></i>
     </div>
 
-    <div class="settings-options" v-show="this.editMode">
-      <button v-on:click="this.showImport" class="btn btn-secondary">Import Blocks</button><br />
+    <div class="settings-options" v-show="editMode">
+      <button v-on:click="showImport" class="btn btn-secondary">
+        Import Blocks</button
+      ><br />
       <button
-        v-on:click="this.export"
+        v-on:click="export"
         class="btn btn-secondary"
         title="Copies the JSON code for all blocks to clipboard"
       >
@@ -80,18 +88,18 @@ export default defineComponent({
       class="modal modal-dialog-centered"
       tabindex="-1"
       role="dialog"
-      v-show="this.importExportMode"
+      v-show="importExportMode"
     >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-body">
-            <h3>{{ this.importExportMode }} Blocks</h3>
+            <h3>{{ importExportMode }} Blocks</h3>
             <textarea id="block-json" ref="textarea"></textarea><br />
-            <p class="error-text" v-show="this.error">{{ this.error }}</p>
+            <p class="error-text" v-show="error">{{ error }}</p>
           </div>
           <div class="modal-footer">
-            <button v-on:click="this.importExportAction" class="btn btn-secondary">
-              {{ this.importExportMode === 'Import' ? 'Import' : 'Close' }}
+            <button v-on:click="importExportAction" class="btn btn-secondary">
+              {{ importExportMode === "Import" ? "Import" : "Close" }}
             </button>
           </div>
         </div>

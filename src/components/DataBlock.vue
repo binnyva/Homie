@@ -1,72 +1,74 @@
 <script>
-import { defineComponent } from 'vue'
-import { useStore } from '@/store'
-import { VueDraggable } from 'vue-draggable-plus'
-import NewItem from './NewItem.vue'
-import BlockItem from './BlockItem.vue'
+import { defineComponent } from "vue";
+import { useStore } from "@/store";
+import { VueDraggable } from "vue-draggable-plus";
+import NewItem from "./NewItem.vue";
+import BlockItem from "./BlockItem.vue";
 
 export default defineComponent({
   setup() {
     return {
-      store: useStore()
-    }
+      store: useStore(),
+    };
   },
   data() {
     return {
       editing: false,
-      actionText: 'Edit'
-    }
+      actionText: "Edit",
+    };
   },
-  props: ['blockIndex', 'block'],
+  props: ["blockIndex", "block"],
   components: {
     NewItem,
     BlockItem,
-    VueDraggable
+    VueDraggable,
   },
   methods: {
     handleKey(e) {
       if (e.keyCode === 13) {
-        this.toggleEdit()
+        this.toggleEdit();
       }
     },
     toggleEdit() {
       if (this.editing) {
-        this.editing = false
-        this.actionText = 'Edit'
-        this.saveBlock()
+        this.editing = false;
+        this.actionText = "Edit";
+        this.saveBlock();
       } else {
-        this.actionText = 'Save'
-        this.editing = true
+        this.actionText = "Save";
+        this.editing = true;
       }
     },
 
     saveOrder() {
-      this.saveBlock()
+      this.saveBlock();
     },
 
     deleteBlock() {
-      if (confirm('Are you sure you wish to delete this Block?')) {
-        this.store.deleteBlock(this.blockIndex)
+      if (confirm("Are you sure you wish to delete this Block?")) {
+        this.store.deleteBlock(this.blockIndex);
       }
     },
 
     saveBlock() {
-      this.store.setBlockByIndex(this.blockIndex, this.block)
-    }
-  }
-})
+      this.store.setBlockByIndex(this.blockIndex, this.block);
+    },
+  },
+});
 </script>
 
 <template>
-  <div :class="`block ${this.block.type}-block`">
-    <div class="block-action-area" v-if="this.store.getEditMode()">
+  <div :class="`block ${block.type}-block`">
+    <div class="block-action-area" v-if="store.getEditMode()">
       <div class="block-action-holder">
-        <a class="block-edit-action block-action" v-on:click="this.toggleEdit">{{ actionText }}</a>
+        <a class="block-edit-action block-action" v-on:click="toggleEdit">{{
+          actionText
+        }}</a>
         <span class="block-separator" v-if="editing">|</span>
         <a
           class="block-delete-action text-danger block-action"
           v-if="editing"
-          v-on:click="this.deleteBlock"
+          v-on:click="deleteBlock"
           >Delete</a
         >
       </div>
@@ -77,11 +79,16 @@ export default defineComponent({
       name="name"
       :disabled="!editing"
       class="block-name"
-      v-on:keypress="this.handleKey"
+      v-on:keypress="handleKey"
       v-show="block.name || editing"
     />
     <ul v-if="block.type === 'list'">
-      <VueDraggable v-model="block.items" group="items" handle=".handle" @end="this.saveOrder">
+      <VueDraggable
+        v-model="block.items"
+        group="items"
+        handle=".handle"
+        @end="saveOrder"
+      >
         <!-- v-model="block.items"> -->
         <BlockItem
           v-for="(item, index) in block.items"
@@ -94,21 +101,15 @@ export default defineComponent({
     </ul>
     <div v-if="block.type === 'html'" v-html="block.html"></div>
 
-    <NewItem :blockIndex="blockIndex" v-if="this.store.getEditMode()"></NewItem>
+    <NewItem :blockIndex="blockIndex" v-if="store.getEditMode()"></NewItem>
   </div>
 </template>
 
 <style>
 .block {
-  float: left;
-  min-width: 15%;
+  width: 15%;
   padding: 5px;
-  border: 1px solid var(--bs-secondary-color);
-  margin: 5px;
-  position: relative;
-}
-.list-block {
-  width: 10%;
+  /* border: 1px solid var(--bs-secondary-color); */
 }
 
 .block-action-area {

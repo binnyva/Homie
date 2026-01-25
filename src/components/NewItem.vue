@@ -23,10 +23,17 @@
   </div>
 </template>
 
-<script>
-export default {
+<script>import { defineComponent } from 'vue'
+import { useStore } from '@/store'
+
+export default defineComponent({
   name: 'NewItem',
-  props: ["block_index"],
+  props: ["blockIndex"],
+  setup() {
+    return {
+      store: useStore()
+    }
+  },
   data: () => {
     return {
       name: "",
@@ -45,7 +52,7 @@ export default {
         html: this.html,
         type: this.type
       }
-      this.$store.dispatch('ADD_ITEM', { item, block_index: this.block_index });
+      this.store.addItem({ item, blockIndex: this.blockIndex });
       this.name = "";
       this.url = "http://";
       this.html = "";
@@ -77,7 +84,7 @@ export default {
       console.log(this.type);
     }
   }
-}
+});
 </script>
 
 <style>

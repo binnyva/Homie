@@ -16,12 +16,12 @@ export default defineComponent({
     }
   },
   methods: {
-    handleKey: function (e) {
+    handleKey(e) {
       if (e.keyCode === 13) {
         this.toggleEdit()
       }
     },
-    toggleEdit: function () {
+    toggleEdit() {
       if (this.editing) {
         this.actionText = 'Edit'
         this.editing = false
@@ -33,7 +33,7 @@ export default defineComponent({
       }
     },
 
-    deleteItem: function () {
+    deleteItem() {
       if (confirm('Are you sure you wish to delete this item?')) {
         this.store.deleteItem(this.blockIndex, this.itemIndex)
         this.actionText = 'Edit'
@@ -41,7 +41,7 @@ export default defineComponent({
       }
     },
 
-    saveItem: function () {
+    saveItem() {
       this.store.setItem(this.blockIndex, this.itemIndex, item)
     }
   }

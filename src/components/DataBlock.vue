@@ -24,12 +24,12 @@ export default defineComponent({
     VueDraggable
   },
   methods: {
-    handleKey: function (e) {
+    handleKey(e) {
       if (e.keyCode === 13) {
         this.toggleEdit()
       }
     },
-    toggleEdit: function () {
+    toggleEdit() {
       if (this.editing) {
         this.editing = false
         this.actionText = 'Edit'
@@ -40,17 +40,17 @@ export default defineComponent({
       }
     },
 
-    saveOrder: function () {
+    saveOrder() {
       this.saveBlock()
     },
 
-    deleteBlock: function () {
+    deleteBlock() {
       if (confirm('Are you sure you wish to delete this Block?')) {
         this.store.deleteBlock(this.blockIndex)
       }
     },
 
-    saveBlock: function () {
+    saveBlock() {
       this.store.setBlockByIndex(this.blockIndex, this.block)
     }
   }

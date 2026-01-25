@@ -141,7 +141,7 @@ export default defineComponent({
 }
 .block ul {
   list-style: none;
-  margin: 0;
+  margin: 0 0 0 2px;
   padding: 0;
 }
 .block-name {

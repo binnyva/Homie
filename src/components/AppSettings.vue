@@ -43,11 +43,15 @@ export default defineComponent({
     showImport() {
       this.importExportMode = "Import";
     },
-    export() {
+    showExport() {
+      this.importExportMode = "Export";
       const blocks = this.store.blocks;
       this.$refs.textarea.value = JSON.stringify(blocks);
-      this.importExportMode = "Export";
-      this.$bvModal.show("#settings-dialog");
+
+      // Copy the JSON to clipboard
+      this.$refs.textarea.select();
+      document.execCommand("copy");
+      this.error = "Block JSON copied to clipboard automatically.";
     },
     toggleSetting() {
       this.editMode = this.editMode ? false : true;
@@ -75,7 +79,7 @@ export default defineComponent({
         Import Blocks</button
       ><br />
       <button
-        v-on:click="export"
+        v-on:click="showExport"
         class="btn btn-secondary"
         title="Copies the JSON code for all blocks to clipboard"
       >

@@ -62,29 +62,33 @@ export default defineComponent({
 
 <template>
   <div :class="`block ${block.type}-block`">
-    <div class="block-action-area" v-if="store.getEditMode()">
-      <div class="block-action-holder">
-        <a class="block-edit-action block-action" v-on:click="toggleEdit">{{
-          actionText
-        }}</a>
-        <span class="block-separator" v-if="editing">|</span>
-        <a
-          class="block-delete-action text-danger block-action"
-          v-if="editing"
-          v-on:click="deleteBlock"
-          >Delete</a
-        >
+    <div class="block-title">
+      <input
+        v-model="block.name"
+        name="name"
+        :disabled="!editing"
+        :size="Math.max((block.name || '').length, editing ? 10 : 1)"
+        class="block-name"
+        v-on:keypress="handleKey"
+        v-show="block.name || editing"
+      />
+
+      <div class="block-action-area" v-if="store.getEditMode()">
+        <div class="block-action-holder">
+          <a class="block-edit-action block-action" v-on:click="toggleEdit">{{
+            actionText
+          }}</a>
+          <span class="block-separator" v-if="editing">|</span>
+          <a
+            class="block-delete-action text-danger block-action"
+            v-if="editing"
+            v-on:click="deleteBlock"
+            >Delete</a
+          >
+        </div>
       </div>
     </div>
 
-    <input
-      v-model="block.name"
-      name="name"
-      :disabled="!editing"
-      class="block-name"
-      v-on:keypress="handleKey"
-      v-show="block.name || editing"
-    />
     <ul v-if="block.type === 'list'">
       <VueDraggable
         v-model="block.items"
@@ -115,12 +119,18 @@ export default defineComponent({
   /* border: 1px solid var(--bs-secondary-color); */
 }
 
+.block-title {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
 .block-action-area {
-  position: absolute;
   display: none;
-  margin: 0;
+  margin: 0 0 0 auto;
   padding: 0;
-  right: 10px;
+  flex: 0 0 auto;
 }
 .block-action-holder {
   display: inline;
@@ -129,7 +139,7 @@ export default defineComponent({
   background-color: #eee;
   border-radius: 3px;
 }
-.block:hover .block-action-area {
+.block-title:hover .block-action-area {
   display: block;
 }
 .block-separator {
@@ -152,7 +162,8 @@ export default defineComponent({
   font-size: x-large;
   border: 1px solid #666;
   color: var(--light);
-  width: 100%;
+  max-width: calc(100% - 58px);
+  min-width: 0;
 }
 .block-name:disabled {
   border: 1px solid transparent;

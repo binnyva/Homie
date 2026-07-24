@@ -34,7 +34,7 @@ export default defineComponent({
             this.store.save();
             this.importExportMode = false;
           }
-        } catch (e) {
+        } catch {
           this.error = "Provided Import JSON is not valid JSON.";
         }
       }

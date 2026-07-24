@@ -5,6 +5,9 @@ import { VueDraggable } from "vue-draggable-plus";
 import NewItem from "./NewItem.vue";
 import BlockItem from "./BlockItem.vue";
 
+/** @type {import("vue").Component} */
+const Draggable = VueDraggable;
+
 export default defineComponent({
   setup() {
     return {
@@ -21,7 +24,7 @@ export default defineComponent({
   components: {
     NewItem,
     BlockItem,
-    VueDraggable,
+    VueDraggable: Draggable,
   },
   methods: {
     handleKey(e) {
